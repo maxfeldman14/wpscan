@@ -95,6 +95,13 @@ def main
       raise 'Basic authentication is required, please provide it with --basic-auth <login:password>'
     end
 
+    # Check if website is wp option
+    if wpscan_options.is_wp
+      puts wp_target.wordpress?
+      return wp_target.wordpress?
+      exit(0)
+    end
+
     # Remote website is wordpress?
     unless wpscan_options.force
       unless wp_target.wordpress?
@@ -333,9 +340,6 @@ def main
       else
         puts "#{info('[+]')} Identified the following #{wp_users.size} user/s:"
         wp_users.output(margin_left: ' ' * 4)
-        if wp_users[0].login == "admin"
-           puts "#{warning('[!]')} Default first WordPress username 'admin' is still used"
-        end
       end
 
     else
